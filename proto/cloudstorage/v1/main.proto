@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package cloudstorage.v1;
+
+service CloudStorageService {
+  rpc Upload(stream CloudStorageServiceUploadRequest) returns (CloudStorageServiceUploadResponse);
+
+  rpc Download(CloudStorageServiceDownloadRequest) returns (stream CloudStorageServiceDownloadResponse);
+}
+
+message CloudStorageServiceUploadRequest {
+  bytes data = 1;
+}
+
+message CloudStorageServiceDownloadResponse {
+  bytes data = 1;
+}
+
+message CloudStorageServiceUploadResponse {
+  Status status = 1;
+  optional FileDetails file_details = 2;
+}
+
+message CloudStorageServiceDownloadRequest {
+  string file_name = 1;
+}
+
+enum Status {
+  STATUS_SUCCESS_UNSPECIFIED = 0;
+  STATUS_FAILED = 1;
+}
+
+message FileDetails {
+  string file_name = 1;
+  uint64 file_size = 2;
+  string access_url = 3;
+}
+
+message FileMetaData {
+  string file_name = 1;
+}
