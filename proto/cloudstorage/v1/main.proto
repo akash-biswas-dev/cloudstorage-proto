@@ -1,41 +1,66 @@
 syntax = "proto3";
 
+import "cloudstorage/v1/types.proto";
+
 package cloudstorage.v1;
 
 service CloudStorageService {
-  rpc Upload(stream CloudStorageServiceUploadRequest) returns (CloudStorageServiceUploadResponse);
+  rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse);
 
-  rpc Download(CloudStorageServiceDownloadRequest) returns (stream CloudStorageServiceDownloadResponse);
+  rpc DownloadFile(DownloadFileRequest) returns (stream DownloadFileResponse);
+
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+
+  rpc ChangeVisibility(ChangeVisibilityRequest) returns (ChangeVisibilityResponse);
+
+  rpc CreateStaticDirectory(CreateStaticDirectoryRequest) returns (CreateStaticDirectoryResponse);
+
 }
 
-message CloudStorageServiceUploadRequest {
+message UploadFileRequest {
   bytes data = 1;
-}
-
-message CloudStorageServiceDownloadResponse {
-  bytes data = 1;
-}
-
-message CloudStorageServiceUploadResponse {
-  Status status = 1;
-  optional FileDetails file_details = 2;
-}
-
-message CloudStorageServiceDownloadRequest {
-  string file_name = 1;
 }
 
 enum Status {
-  STATUS_SUCCESS_UNSPECIFIED = 0;
+  STATUS_UNSPECIFIED = 0;
   STATUS_FAILED = 1;
+  STATUS_SUCCESS = 2;
 }
 
-message FileDetails {
-  string file_name = 1;
-  uint64 file_size = 2;
-  string access_url = 3;
+message UploadFileResponse {
+  Status status = 1;
+  oneof response {
+    string error_message = 2;
+    cloudstorage.v1.FileDetails file_details = 3;
+  }
 }
 
-message FileMetaData {
-  string file_name = 1;
+message DownloadFileRequest {
+  string file_id= 1;
+}
+
+message DownloadFileResponse {
+  bytes data = 1;
+}
+
+message DeleteFileRequest{
+  repeated string file_ids = 1;
+}
+message DeleteFileResponse{
+  repeated string file_ids = 1;
+}
+
+message ChangeVisibilityRequest{
+  repeated cloudstorage.v1.FileIdWithVisibility file_visibility = 1;
+}
+
+message ChangeVisibilityResponse{
+  repeated cloudstorage.v1.FileIdWithVisibility file_visibility = 1;
+}
+
+message CreateStaticDirectoryRequest {
+  string directory_id = 1;
+}
+message CreateStaticDirectoryResponse{
+  string directory_id = 1;
 }
