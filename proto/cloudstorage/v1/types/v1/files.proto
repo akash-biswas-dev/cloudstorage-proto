@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package cloudstorage.v1.types.v1;
+
+
+enum ObjectType{
+  OBJECT_TYPE_UNSPECIFIED= 0;
+  OBJECT_TYPE_FILE = 1;
+  OBJECT_TYPE_DIRECTORY = 2;
+}
+
+enum AccessType{
+  ACCESS_TYPE_UNSPECIFIED = 0;
+  ACCESS_TYPE_PRIVATE = 1;
+  ACCESS_TYPE_PUBLIC = 2;
+}
+
+message ObjectMetadata{
+  ObjectType object_type = 1;
+  AccessType access_type = 2;
+  string object_id = 4;
+}
+
+message ObjectAccessInfo{
+  string object_id = 1;
+  AccessType access_type = 2;
+}
+
+message ObjectDetails {
+  ObjectType object_type = 1;
+  string object_id = 2;
+  uint64 object_size = 3;
+  AccessType access_type= 4;
+  string created_on = 5;
+  optional string access_url = 6;
+}

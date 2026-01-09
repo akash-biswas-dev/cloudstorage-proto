@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package cloudstorage.v1;
+
+import "cloudstorage/v1/types/v1/files.proto";
+
+service CloudStorageFileService {
+
+  rpc SaveFile(stream SaveFileRequest) returns (SaveFileResponse);
+
+  rpc GetFile(GetFileRequest) returns (stream GetFileResponse);
+
+  rpc UpdateFile(stream UpdateFileRequest) returns (UpdateFileResponse);
+
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_FAILED = 1;
+  STATUS_SUCCESS = 2;
+}
+
+message SaveFileRequest {
+  bytes data = 1;
+}
+
+message SaveFileResponse {
+  Status status = 1;
+  oneof response {
+    string error_message = 2;
+    cloudstorage.v1.types.v1.ObjectDetails object_details = 3;
+  }
+}
+
+message GetFileRequest {
+  string object_id = 1;
+}
+
+message GetFileResponse {
+  bytes data = 1;
+}
+
+message UpdateFileRequest{
+   bytes data = 1;
+}
+
+message UpdateFileResponse{
+  Status status = 1;
+  oneof response{
+    string error_message = 2;
+    cloudstorage.v1.types.v1.ObjectDetails object_details = 3;
+  }
+}

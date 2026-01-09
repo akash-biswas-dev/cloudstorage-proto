@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package cloudstorage.v1.types.v1;
+
+message Authorization {
+  string token = 1;
+}
