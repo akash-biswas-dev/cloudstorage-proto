@@ -1,20 +1,21 @@
 syntax = "proto3";
 
-import "cloudstorage/v1/types.proto";
-
 package cloudstorage.v1;
+
+import "cloudstorage/v1/types.proto";
 
 service CloudStorageService {
   rpc UploadFile(stream UploadFileRequest) returns (UploadFileResponse);
 
-  rpc DownloadFile(DownloadFileRequest) returns (stream DownloadFileResponse);
+  rpc GetFile(GetFileRequest) returns (stream GetFileResponse);
 
   rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
 
   rpc ChangeVisibility(ChangeVisibilityRequest) returns (ChangeVisibilityResponse);
 
-  rpc CreateStaticDirectory(CreateStaticDirectoryRequest) returns (CreateStaticDirectoryResponse);
+  rpc CreateDirectory(CreateDirectoryRequest) returns (CreateDirectoryResponse);
 
+  rpc GetDirectoryContent(GetDirectoryContentRequest) returns (GetDirectoryContentResponse);
 }
 
 message UploadFileRequest {
@@ -35,32 +36,52 @@ message UploadFileResponse {
   }
 }
 
-message DownloadFileRequest {
-  string file_id= 1;
+message GetFileRequest {
+  string file_id = 1;
 }
 
-message DownloadFileResponse {
+message GetFileResponse {
   bytes data = 1;
 }
 
-message DeleteFileRequest{
+message DeleteFileRequest {
   repeated string file_ids = 1;
 }
-message DeleteFileResponse{
+message DeleteFileResponse {
   repeated string file_ids = 1;
 }
 
-message ChangeVisibilityRequest{
-  repeated cloudstorage.v1.FileIdWithVisibility file_visibility = 1;
+message ChangeVisibilityRequest {
+  repeated cloudstorage.v1.FileAccessInfo file_data= 1;
 }
 
-message ChangeVisibilityResponse{
-  repeated cloudstorage.v1.FileIdWithVisibility file_visibility = 1;
+message ChangeVisibilityResponse {
+  repeated cloudstorage.v1.FileAccessInfo file_data= 1;
 }
 
-message CreateStaticDirectoryRequest {
+message CreateDirectoryRequest {
   string directory_id = 1;
+  cloudstorage.v1.AccessType access_type = 2;
 }
-message CreateStaticDirectoryResponse{
+
+message CreateDirectoryResponse {
   string directory_id = 1;
+  cloudstorage.v1.AccessType access_type = 2;
+}
+
+enum ContentType{
+    CONTENT_TYPE_UNSPECIFIED = 0;
+    CONTENT_TYPE_ALL = 1;
+    CONTENT_TYPE_DIRECTORY = 2;
+    CONTENT_TYPE_FILES = 3;
+}
+message GetDirectoryContentRequest{
+  string directory_id = 1;
+  ContentType required_content_type = 2;
+}
+message GetDirectoryContentResponse{
+  string content_id = 1;
+  ContentType content_type = 2;
+  uint64 content_size = 3;
+  string created_on = 4;
 }

@@ -2,29 +2,32 @@ syntax = "proto3";
 
 package cloudstorage.v1;
 
-enum Visibility{
-  VISIBILITY_UNSPECIFIED = 0;
-  VISIBILITY_PRIVATE = 1;
-  VISIBILITY_PUBLIC = 2;
+enum AccessType{
+  ACCESS_TYPE_UNSPECIFIED = 0;
+  ACCESS_TYPE_PRIVATE = 1;
+  ACCESS_TYPE_PUBLIC = 2;
 }
 
 message FileMetaData {
   string file_id = 1;
-  Visibility visibility = 2;
+  AccessType access_type = 2;
+  string directory_id = 3;
+}
+
+message FileAccessInfo{
+  string file_id = 1;
+  AccessType access_type = 2;
 }
 
 message FileDetails {
   string file_id = 1;
   uint64 file_size = 2;
-  string access_url = 3;
-  Visibility visibility = 4;
+  AccessType access_type= 3;
+  string created_on = 4;
+  optional string access_url = 5;
+
 }
 
-message Authorization{
+message Authorization {
   string token = 1;
-}
-
-message FileIdWithVisibility{
-  string file_id = 1;
-  Visibility visibility = 2;
 }
