@@ -4,7 +4,7 @@ package cloudstorage.v1;
 
 import "cloudstorage/v1/types/v1/files.proto";
 
-service CloudStorageObjectControlService {
+service CloudStorageService {
   // Update the access type of the object PUBLIC/PRIVATE.
   rpc UpdateAccessType(UpdateAccessTypeRequest) returns (UpdateAccessTypeResponse);
 
@@ -61,7 +61,8 @@ message IsObjectExistsResponse {
 }
 
 message FindObjectsByNameRequest {
-  string object_name = 1; // Name refers here the directory name or file name.
+  // Name refers here the directory name or file name.
+  string object_name = 1; 
 }
 
 message FindObjectsByNameResponse {

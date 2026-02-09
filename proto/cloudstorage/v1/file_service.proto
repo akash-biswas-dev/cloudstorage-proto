@@ -4,7 +4,9 @@ package cloudstorage.v1;
 
 import "cloudstorage/v1/types/v1/files.proto";
 
-service CloudStorageFileService {
+// This service is only to used to send and recive the raw data bytes.
+service FileService {
+
   rpc SaveFile(stream SaveFileRequest) returns (SaveFileResponse);
 
   rpc GetFile(GetFileRequest) returns (stream GetFileResponse);
