@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package cloudstorage.v1.types.v1;
 
+// The authorization sent over the header to access the Objects.
 message Authorization {
   string token = 1;
 }
