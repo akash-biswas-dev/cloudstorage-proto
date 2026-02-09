@@ -30,7 +30,7 @@ message ObjectAccessInfo {
 message ObjectDetails {
   ObjectType object_type = 1;
   string object_id = 2;
-  uint64 object_size = 3;
+  uint64 object_size = 3 [js_type = JS_STRING ];
   AccessType access_type = 4;
   string created_on = 5;
   optional string access_url = 6;
